@@ -14,7 +14,7 @@ backupfile = "~/.keymap_backup"
 
 # Add the keys to be disabled below.
 shortcuts = {
-    "org.gnome.settings-daemon.plugins.media-keys/key" : "gsettings",
+    #"org.gnome.settings-daemon.plugins.media-keys/key" : "gsettings",
     "/org/gnome/desktop/wm/keybindings/key" : "dconf",
     # CTRL + ALT + Backspace
     "org.gnome.settings-daemon.plugins.media-keys/logout" : "gsettings",
@@ -30,11 +30,16 @@ shortcuts = {
     "org.gnome.desktop.wm.keybindings/begin-resize" : "gsettings",
     # CTRL + ALT + S
     "org.gnome.desktop.wm.keybindings/toggle-shaded" : "gsettings",
-
+    # CTRL + SHIFT + ALT + L
     "org.gnome.desktop.wm.keybindings/move-to-workspace-left" : "gsettings",
+    # CTRL + SHIFT + ALT + R
     "org.gnome.desktop.wm.keybindings/move-to-workspace-right" : "gsettings",
     "org.gnome.desktop.wm.keybindings/move-to-workspace-up" : "gsettings",
     "org.gnome.desktop.wm.keybindings/move-to-workspace-down" : "gsettings",
+    # CTRL + ALT + L
+    "org.gnome.desktop.wm.keybindings/switch-to-workspace-left" : "gsettings",
+    # CTRL + ALT + R
+    "org.gnome.desktop.wm.keybindings/switch-to-workspace-right" : "gsettings",
     "org.gnome.desktop.wm.keybindings/panel-main-menu" : "gsettings",
     "org.gnome.desktop.wm.keybindings/toggle-maximized" : "gsettings",
     "org.gnome.desktop.wm.keybindings/unmaximize" : "gsettings",
@@ -72,10 +77,9 @@ def get(cmd):
 # Get the PID of the currently active window
 def getactive():
     xdoid = get(["xdotool", "getactivewindow"])
-    pidline = [l for l in get(["xprop", "-id", xdoid]).splitlines()\
-                 if "_NET_WM_PID(CARDINAL)" in l]
+    pidline = get(["xdotool", "getwindowpid", xdoid])
     if pidline:
-        pid = pidline[0].split("=")[1].strip()
+        pid = pidline
     else:
         # Something went wrong
         print("Warning: Could not obtain PID of current window")
